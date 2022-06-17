@@ -23,16 +23,7 @@ class EventDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureUI()
-    }
-    
-
-    func configureUI() {
-        eventNameDescriptionContainerView.layer.cornerRadius = cornerRadius
-        eventDateContainerView.layer.cornerRadius = cornerRadius
-        eventRsvpContainerView.layer.cornerRadius = cornerRadius
-        descriptionTextView.layer.cornerRadius = cornerRadius
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {        
@@ -43,6 +34,31 @@ class EventDetailsViewController: UIViewController {
         let date = datePicker.date
         let rsvp = rsvpSwitcher.isOn
         
-        modelController.save(name: name, description: description, date: date, rsvp: rsvp)
+        if let model = model {
+            modelController.update(event: model, name: name, description: description, date: date, rsvp: rsvp)
+        } else {
+            modelController.save(name: name, description: description, date: date, rsvp: rsvp)
+        }
+        dismiss(animated: true)
     }
 }
+
+private extension EventDetailsViewController {
+    func configureUI() {
+        eventNameDescriptionContainerView.layer.cornerRadius = cornerRadius
+        eventDateContainerView.layer.cornerRadius = cornerRadius
+        eventRsvpContainerView.layer.cornerRadius = cornerRadius
+        descriptionTextView.layer.cornerRadius = cornerRadius
+        
+        guard let model = model,
+              let eventDate = model.date else {
+            return
+        }
+
+        nameTextField.text = model.name
+        descriptionTextView.text = model.desc
+        datePicker.date = eventDate
+        rsvpSwitcher.isOn = model.rsvp
+    }
+}
+

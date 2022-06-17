@@ -22,7 +22,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Oi6-iV-LzR">
                             <color key="tintColor" red="1" green="0.40588843819999998" blue="0.4569641948" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <segue destination="WGO-Bs-suu" kind="presentation" id="jfk-lF-XOC"/>
+                                <segue destination="WGO-Bs-suu" kind="presentation" identifier="EventDetailSegue" id="jfk-lF-XOC"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -51,7 +51,7 @@
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Description" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zLF-35-1dz">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zLF-35-1dz">
                                         <rect key="frame" x="10" y="56" width="354" height="134"/>
                                         <color key="backgroundColor" systemColor="systemGray4Color"/>
                                         <color key="textColor" red="1" green="0.40588843819999998" blue="0.4569641948" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -82,6 +82,9 @@
                                     </label>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="HAy-yY-K7b">
                                         <rect key="frame" x="0.0" y="46" width="374" height="216"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="250" constant="100" id="elV-U3-jPb"/>
+                                        </constraints>
                                     </datePicker>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -143,7 +146,7 @@
                             <constraint firstItem="1Qj-Sd-l9O" firstAttribute="leading" secondItem="LD8-qe-bQc" secondAttribute="leading" constant="20" id="Pai-I4-cpd"/>
                             <constraint firstItem="LD8-qe-bQc" firstAttribute="bottom" secondItem="Pcd-cr-n4H" secondAttribute="bottom" constant="40" id="RhZ-Wq-EPy"/>
                             <constraint firstItem="Pcd-cr-n4H" firstAttribute="leading" secondItem="LD8-qe-bQc" secondAttribute="leading" constant="20" id="SQ5-a4-ruZ"/>
-                            <constraint firstItem="Pcd-cr-n4H" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ItV-od-M8u" secondAttribute="bottom" priority="250" constant="20" id="h6J-ZQ-Vp3"/>
+                            <constraint firstItem="Pcd-cr-n4H" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ItV-od-M8u" secondAttribute="bottom" priority="750" constant="20" id="h6J-ZQ-Vp3"/>
                             <constraint firstItem="0wR-8c-9j6" firstAttribute="leading" secondItem="LD8-qe-bQc" secondAttribute="leading" constant="20" id="qYf-iJ-SKS"/>
                             <constraint firstItem="1Qj-Sd-l9O" firstAttribute="top" secondItem="10o-Kg-2KO" secondAttribute="top" constant="20" id="yVH-Qc-gp6"/>
                         </constraints>

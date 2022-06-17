@@ -13,7 +13,7 @@ enum Section: String, CaseIterable {
 }
 
 class EventListViewController: UIViewController {
-
+    private var selectedEvent: Event?
     private var collectionView: UICollectionView! = nil
     private let modelController = EventModelController.shared
     private lazy var dataSource = configureDataSource()
@@ -22,18 +22,70 @@ class EventListViewController: UIViewController {
         super.viewDidLoad()
         modelController.fetch()
         configureCollectionView()
-        snapshotForCurrentState()
+        loadSnapshot()
+        configureNotificationConsumers()
+    }
+        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destination = segue.destination as? EventDetailsViewController,
+              let selectedEvent = self.selectedEvent else {
+            return
+        }
+        
+        destination.model = selectedEvent
+        
+    }
+}
+
+extension EventListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if indexPath.section == 0 {
+            selectedEvent = modelController.rsvpList[indexPath.row]
+        } else {
+            selectedEvent = modelController.notRsvpList[indexPath.row]
+        }
+        
+        self.performSegue(withIdentifier: "EventDetailSegue", sender: self)
+    }
+}
+
+private extension EventListViewController {
+    @objc
+    func loadSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Event>()
+        snapshot.appendSections([.attending])
+        snapshot.appendItems(modelController.rsvpList)
+        snapshot.appendSections([.notAttending])
+        snapshot.appendItems(modelController.notRsvpList)
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
+    @objc
+    func updateSnapshot(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let eventId = userInfo[NotificationKeys.eventId] as? UUID,
+              let event = modelController.loadEvent(by: eventId) else {
+            return
+        }
+        
+        var snapshot = dataSource.snapshot()
+        snapshot.reconfigureItems([event])
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: generateLayout())
         view.addSubview(collectionView)
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        collectionView.anchor(top: self.view.topAnchor
-                              , bottom: self.view.bottomAnchor
-                              , leading: self.view.leadingAnchor
-                              , trailing: self.view.trailingAnchor
-                              , paddingTop: 100.0, paddingBottom: 25.0, paddingLeft: 20.0, paddingRight: 20.0)
+        collectionView.anchor(top: self.view.topAnchor,
+                              bottom: self.view.bottomAnchor,
+                              leading: self.view.leadingAnchor,
+                              trailing: self.view.trailingAnchor,
+                              paddingTop: 100.0,
+                              paddingBottom: 25.0,
+                              paddingLeft: 10.0,
+                              paddingRight: 10.0)
         collectionView.delegate = self
         collectionView.layer.cornerRadius = 12
         collectionView.register(UINib(nibName: "EventCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: EventCollectionViewCell.reuseIdentifier)
@@ -46,7 +98,7 @@ class EventListViewController: UIViewController {
                 fatalError("Could not create view cell")
             }
             
-            cell.title = event.name
+            cell.title = event.getEventDay()
             return cell
         }
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView? in
@@ -59,13 +111,15 @@ class EventListViewController: UIViewController {
         return dataSource
     }
     
-    func snapshotForCurrentState() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Event>()
-        snapshot.appendSections([.attending])
-        snapshot.appendItems(modelController.rsvpList)
-        snapshot.appendSections([.notAttending])
-        snapshot.appendItems(modelController.notRsvpList)
-        dataSource.apply(snapshot, animatingDifferences: false)
+    func configureNotificationConsumers() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(loadSnapshot),
+                                               name: .eventDidAdd,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateSnapshot(_:)),
+                                               name: .eventDidChange,
+                                               object: nil)
     }
     
     func generateLayout() -> UICollectionViewLayout {
@@ -77,25 +131,19 @@ class EventListViewController: UIViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 3,
-                                                     leading: 3,
+                                                     leading: 10,
                                                      bottom: 3,
-                                                     trailing: 3)
+                                                     trailing: 10)
         
+        let itemGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85), heightDimension: .fractionalWidth(0.85))
+        let itemGroup = NSCollectionLayoutGroup.horizontal(layoutSize: itemGroupSize, subitem: item, count: 1)
         
-        let itemGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
-        let itemGroup = NSCollectionLayoutGroup.horizontal(layoutSize: itemGroupSize, subitem: item, count: 2)
-        
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(60))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         
         let section = NSCollectionLayoutSection(group: itemGroup)
         section.boundarySupplementaryItems = [sectionHeader]
-        
+        section.orthogonalScrollingBehavior = .groupPaging
         return section
     }
-
-}
-
-extension EventListViewController: UICollectionViewDelegate {
-    
 }

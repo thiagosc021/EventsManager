@@ -25,6 +25,8 @@
 		786DC94C2852CAAC00439D8D /* EventCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 786DC94A2852CAAC00439D8D /* EventCollectionViewCell.xib */; };
 		786DC94E2852CADA00439D8D /* EventHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DC94D2852CADA00439D8D /* EventHeaderView.swift */; };
 		786DC9512852CE9100439D8D /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DC9502852CE9100439D8D /* UIViewExtension.swift */; };
+		786DC99D285AA44600439D8D /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DC99C285AA44600439D8D /* NotificationNameExtension.swift */; };
+		786DC99F285AAAA900439D8D /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DC99E285AAAA900439D8D /* DateExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		786DC94A2852CAAC00439D8D /* EventCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventCollectionViewCell.xib; sourceTree = "<group>"; };
 		786DC94D2852CADA00439D8D /* EventHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHeaderView.swift; sourceTree = "<group>"; };
 		786DC9502852CE9100439D8D /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		786DC99C285AA44600439D8D /* NotificationNameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtension.swift; sourceTree = "<group>"; };
+		786DC99E285AAAA900439D8D /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +210,8 @@
 			isa = PBXGroup;
 			children = (
 				786DC9502852CE9100439D8D /* UIViewExtension.swift */,
+				786DC99C285AA44600439D8D /* NotificationNameExtension.swift */,
+				786DC99E285AAAA900439D8D /* DateExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -345,7 +351,9 @@
 				786DC94E2852CADA00439D8D /* EventHeaderView.swift in Sources */,
 				782306A628499ABD00271289 /* CoreDataStack.swift in Sources */,
 				786DC9512852CE9100439D8D /* UIViewExtension.swift in Sources */,
+				786DC99D285AA44600439D8D /* NotificationNameExtension.swift in Sources */,
 				786DC94128516BBC00439D8D /* EventDetailsViewController.swift in Sources */,
+				786DC99F285AAAA900439D8D /* DateExtension.swift in Sources */,
 				78230675284997FE00271289 /* EventListViewController.swift in Sources */,
 				786DC93F2849A46300439D8D /* Event+convenience.swift in Sources */,
 				786DC94B2852CAAC00439D8D /* EventCollectionViewCell.swift in Sources */,

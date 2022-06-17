@@ -28,7 +28,7 @@ private extension EventHeaderView {
         addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
-        label.anchor(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, paddingTop: 10, paddingBottom: -10, paddingLeft: 10, paddingRight: -10)
+        label.anchor(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, paddingTop: 10.0, paddingBottom: 0, paddingLeft: 10.0, paddingRight: 0)
         label.font = UIFont.preferredFont(forTextStyle: .title3)
     }
 }
