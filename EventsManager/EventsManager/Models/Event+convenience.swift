@@ -9,13 +9,14 @@ import Foundation
 import CoreData
 
 extension Event {
-    @discardableResult convenience init(name: String, desc: String, date: Date, rsvp: Bool, context: NSManagedObjectContext = CoreDataStack.context ) {
+    @discardableResult convenience init(name: String, desc: String, date: Date, rsvp: Bool,address: String, context: NSManagedObjectContext = CoreDataStack.context ) {
         self.init(context: context)
         self.id = UUID()
         self.name = name
         self.desc = desc
         self.date = date
         self.rsvp = rsvp
+        self.address = address
     }
     
     func getEventDay() -> String {

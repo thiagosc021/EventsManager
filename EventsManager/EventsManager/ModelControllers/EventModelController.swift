@@ -24,8 +24,8 @@ class EventModelController {
     var rsvpList: [Event] = []
     var notRsvpList: [Event] = []
     
-    func save(name: String, description: String, date: Date, rsvp: Bool) {
-        let event = Event(name: name, desc: description, date: date, rsvp: rsvp)
+    func save(name: String, description: String, date: Date, rsvp: Bool, address: String) {
+        let event = Event(name: name, desc: description, date: date, rsvp: rsvp, address: address)
         CoreDataStack.saveContext()
         updateList(with: event)
         NotificationCenter.default.post(name: .eventDidAdd, object: self, userInfo: nil)        
