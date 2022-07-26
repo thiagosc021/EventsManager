@@ -10,8 +10,7 @@ import MapKit
 
 class EventDetailsViewController: UIViewController {
 
-    private let cornerRadius: CGFloat = 12
-    private var resultSearchController:UISearchController? = nil
+    private let cornerRadius: CGFloat = 12    
     @IBOutlet weak var eventNameDescriptionContainerView: UIView!
     @IBOutlet weak var eventDateContainerView: UIView!
     @IBOutlet weak var eventRsvpContainerView: UIView!
@@ -29,8 +28,7 @@ class EventDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureAddressSearchViewController()
-        configureAddressSearchBar()
+        configureMapView()
         self.hideKeyboardWhenTappedAround()
     }
     
@@ -73,25 +71,20 @@ private extension EventDetailsViewController {
         rsvpSwitcher.isOn = model.rsvp
     }
     
-    func configureAddressSearchViewController() {
-        guard let locationSearchTable = storyboard!.instantiateViewController(withIdentifier: "AddressSearchTableViewController") as? AddressSearchTableViewController else {
-            return
-        }
-        resultSearchController = UISearchController(searchResultsController: locationSearchTable)
-        resultSearchController?.searchResultsUpdater = locationSearchTable
+    func configureMapView() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(touchAction(_:)))
+        mapView.addGestureRecognizer(gestureRecognizer)
     }
-    
-    func configureAddressSearchBar() {
-        guard let resultSearchController = resultSearchController else {
+   
+    @objc
+    func touchAction(_ sender: UITapGestureRecognizer) {
+        let storyBoard = UIStoryboard(name: "Main", bundle:nil)
+        guard let addressSearchMapViewController = storyBoard.instantiateViewController(withIdentifier: "AddressSearchMapViewController") as? AddressSearchMapViewController else {
             return
         }
-        let searchBar = resultSearchController.searchBar
-        searchBar.sizeToFit()
-        searchBar.placeholder = "Search for event address"
-        navigationItem.titleView = resultSearchController.searchBar
-        resultSearchController.hidesNavigationBarDuringPresentation = false
-        resultSearchController.obscuresBackgroundDuringPresentation = true
-        definesPresentationContext = true
+        
+        self.navigationController?.pushViewController(addressSearchMapViewController, animated: true)
+        
     }
 }
 

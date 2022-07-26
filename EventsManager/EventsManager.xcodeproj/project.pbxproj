@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		02B4E0F7287CEF4900F9D4EE /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B4E0F6287CEF4900F9D4EE /* UIViewControllerExtension.swift */; };
 		02B4E0F9287CFA5500F9D4EE /* AddressSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B4E0F8287CFA5500F9D4EE /* AddressSearchTableViewController.swift */; };
+		02B4E0FD287E499A00F9D4EE /* AddressSearchMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B4E0FC287E499A00F9D4EE /* AddressSearchMapViewController.swift */; };
 		78230671284997FE00271289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78230670284997FE00271289 /* AppDelegate.swift */; };
 		78230673284997FE00271289 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78230672284997FE00271289 /* SceneDelegate.swift */; };
 		78230675284997FE00271289 /* EventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78230674284997FE00271289 /* EventListViewController.swift */; };
@@ -51,6 +52,7 @@
 /* Begin PBXFileReference section */
 		02B4E0F6287CEF4900F9D4EE /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		02B4E0F8287CFA5500F9D4EE /* AddressSearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSearchTableViewController.swift; sourceTree = "<group>"; };
+		02B4E0FC287E499A00F9D4EE /* AddressSearchMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSearchMapViewController.swift; sourceTree = "<group>"; };
 		7823066D284997FE00271289 /* EventsManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EventsManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78230670284997FE00271289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78230672284997FE00271289 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 			children = (
 				78230674284997FE00271289 /* EventListViewController.swift */,
 				786DC94028516BBC00439D8D /* EventDetailsViewController.swift */,
+				02B4E0FC287E499A00F9D4EE /* AddressSearchMapViewController.swift */,
 				02B4E0F8287CFA5500F9D4EE /* AddressSearchTableViewController.swift */,
 			);
 			path = ViewControllers;
@@ -362,6 +365,7 @@
 				786DC99F285AAAA900439D8D /* DateExtension.swift in Sources */,
 				02B4E0F9287CFA5500F9D4EE /* AddressSearchTableViewController.swift in Sources */,
 				78230675284997FE00271289 /* EventListViewController.swift in Sources */,
+				02B4E0FD287E499A00F9D4EE /* AddressSearchMapViewController.swift in Sources */,
 				786DC93F2849A46300439D8D /* Event+convenience.swift in Sources */,
 				786DC94B2852CAAC00439D8D /* EventCollectionViewCell.swift in Sources */,
 				786DC94328516D8700439D8D /* EventModelController.swift in Sources */,
