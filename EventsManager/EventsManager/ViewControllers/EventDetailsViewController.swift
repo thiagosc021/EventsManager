@@ -7,10 +7,17 @@
 
 import UIKit
 import MapKit
+import Contacts
 
 class EventDetailsViewController: UIViewController {
 
-    private let cornerRadius: CGFloat = 12    
+    private let cornerRadius: CGFloat = 12
+    private let addressFormatter =  { () -> CNPostalAddressFormatter in
+        var formatter = CNPostalAddressFormatter()
+        formatter.style = .mailingAddress
+        return formatter
+    }()
+    
     @IBOutlet weak var eventNameDescriptionContainerView: UIView!
     @IBOutlet weak var eventDateContainerView: UIView!
     @IBOutlet weak var eventRsvpContainerView: UIView!
@@ -47,8 +54,6 @@ class EventDetailsViewController: UIViewController {
         }
         dismiss(animated: true)
     }
-    
-    
 }
 
 private extension EventDetailsViewController {
@@ -82,9 +87,22 @@ private extension EventDetailsViewController {
         guard let addressSearchMapViewController = storyBoard.instantiateViewController(withIdentifier: "AddressSearchMapViewController") as? AddressSearchMapViewController else {
             return
         }
-        
+        addressSearchMapViewController.delegate = self
         self.navigationController?.pushViewController(addressSearchMapViewController, animated: true)
         
     }
 }
 
+extension EventDetailsViewController: AddressSearchMapViewControllerDelegate {
+    func selectAddress(mapItem: MKMapItem) {
+        guard let postalAddress = mapItem.placemark.postalAddress else {
+            return
+        }
+        addressLabel.text = addressFormatter.string(from: postalAddress).replacingOccurrences(of: "\n", with: ", ")
+        let currentRegion = MKCoordinateRegion(center: mapItem.placemark.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
+        mapView?.addAnnotation(mapItem.placemark)
+        mapView?.setRegion(currentRegion, animated: true)
+    }
+    
+    
+}

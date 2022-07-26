@@ -8,16 +8,30 @@
 import UIKit
 import MapKit
 
+protocol AddressSearchMapViewControllerDelegate: AnyObject {
+    func selectAddress(mapItem: MKMapItem)
+}
+
 class AddressSearchMapViewController: UIViewController {
     private var resultSearchController:UISearchController? = nil
-
+    private var mapItem: MKMapItem?
     @IBOutlet weak var mapView: MKMapView!
+    weak var delegate: AddressSearchMapViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAddressSearchViewController()
         configureAddressSearchBar()
         self.hideKeyboardWhenTappedAround()
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        guard let mapItem = mapItem else {
+            return
+        }
+
+        delegate?.selectAddress(mapItem: mapItem)
     }
 }
 
@@ -28,9 +42,9 @@ private extension AddressSearchMapViewController {
             return
         }
         locationSearchTable.mapView = mapView
+        locationSearchTable.delegate = self
         resultSearchController = UISearchController(searchResultsController: locationSearchTable)
         resultSearchController?.searchResultsUpdater = locationSearchTable
-        
     }
     
     func configureAddressSearchBar() {
@@ -47,3 +61,8 @@ private extension AddressSearchMapViewController {
     }
 }
 
+extension AddressSearchMapViewController: AddressSearchMapViewControllerDelegate {
+    func selectAddress(mapItem: MKMapItem) {
+        self.mapItem = mapItem
+    }
+}

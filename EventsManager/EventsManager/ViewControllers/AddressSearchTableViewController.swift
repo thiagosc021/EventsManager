@@ -7,10 +7,17 @@
 
 import UIKit
 import MapKit
+import Contacts
 
 class AddressSearchTableViewController: UITableViewController {
     private var matchingItems:[MKMapItem] = []
+    private let formatter =  { () -> CNPostalAddressFormatter in
+        var formatter = CNPostalAddressFormatter()
+        formatter.style = .mailingAddress
+        return formatter
+    }()
     var mapView: MKMapView? = nil
+    weak var delegate: AddressSearchMapViewControllerDelegate?
 }
 
 extension AddressSearchTableViewController {
@@ -19,11 +26,22 @@ extension AddressSearchTableViewController {
         }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        let selectedItem = matchingItems[indexPath.row].placemark
-        cell.textLabel?.text = selectedItem.name
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell"),
+              let postalAddress = matchingItems[indexPath.row].placemark.postalAddress else {
+            return UITableViewCell()
+        }
+        
+        cell.textLabel?.text = formatter.string(from: postalAddress).replacingOccurrences(of: "\n", with: ", ")
         cell.detailTextLabel?.text = ""
         return cell
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedAddress = matchingItems[indexPath.row]
+        let currentRegion = MKCoordinateRegion(center: selectedAddress.placemark.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009))
+        mapView?.addAnnotation(selectedAddress.placemark)
+        mapView?.setRegion(currentRegion, animated: true)
+        delegate?.selectAddress(mapItem: selectedAddress)
+        self.dismiss(animated: true)
     }
 }
 
